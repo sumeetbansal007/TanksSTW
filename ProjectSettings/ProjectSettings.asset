@@ -4,7 +4,11 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
+<<<<<<< HEAD
   productGUID: 1b78f69056895f340a9c25efba2b2488
+=======
+  productGUID: 3f589185ba8e5b043abbc9afa46ba652
+>>>>>>> c69665be1ed8657525ad881fbc6031c69d51de40
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +17,11 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
+<<<<<<< HEAD
   productName: TanksSTW
+=======
+  productName: STW_TanksRepo
+>>>>>>> c69665be1ed8657525ad881fbc6031c69d51de40
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -548,14 +556,22 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
+<<<<<<< HEAD
   metroPackageName: TanksSTW
+=======
+  metroPackageName: STW_TanksRepo
+>>>>>>> c69665be1ed8657525ad881fbc6031c69d51de40
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
+<<<<<<< HEAD
   metroApplicationDescription: TanksSTW
+=======
+  metroApplicationDescription: STW_TanksRepo
+>>>>>>> c69665be1ed8657525ad881fbc6031c69d51de40
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0

@@ -1,6 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.2d.spriteshape": "1.0.12-preview",
+=======
+>>>>>>> c69665be1ed8657525ad881fbc6031c69d51de40
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "2.0.16",
     "com.unity.collab-proxy": "1.2.4-preview",
