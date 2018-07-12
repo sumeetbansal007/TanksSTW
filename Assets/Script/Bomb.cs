@@ -16,10 +16,13 @@ public class Bomb : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Destroy(gameObject);
         ContactPoint2D contact = collision.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 pos = contact.point;
         //TODO: Need to pass the contact point point to PlatformDestroyer
         Debug.Log("Contact point = "+ pos);
+        GameObject go = Instantiate(GameManager.instance.bombEffects[GameManager.instance.currentIndexOfBomb].gameObject, pos, Quaternion.identity);
+        go.GetComponent<ParticleSystem>().Play();
     }
 }

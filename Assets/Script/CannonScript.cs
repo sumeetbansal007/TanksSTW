@@ -72,8 +72,6 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	private void GenerateBomb()
 	{
-        Debug.Log("GenerateBomb = " + bombPrefab.name);
-
         bombObj = (GameObject) Instantiate(bombPrefab);
 		Vector3 pos = transform.position;
         bombObj.transform.SetParent(null);
@@ -84,7 +82,8 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	private void ShootBomb()
 	{
-		bombObj.SetActive(true);	
+        bombObj.GetComponent<SpriteRenderer>().sprite = GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb];
+        bombObj.SetActive(true);	
 		bombObj.GetComponent<Rigidbody2D>().gravityScale = 1;
         bombObj.GetComponent<Rigidbody2D>().AddForce(GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)), ForceMode2D.Impulse);
 		isBallThrown = true;
