@@ -14,7 +14,7 @@ public class Draw : MonoBehaviour
   
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.tag == "Bomb")
+        if (GameManager.instance.currentIndexOfBomb == 0)
         {
             ContactPoint2D contact = collision.contacts[0];
             Vector3 pos = contact.point;

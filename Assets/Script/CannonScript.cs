@@ -10,7 +10,7 @@ public class CannonScript : MonoBehaviour
 	
 	private GameObject bombObj;
 	private bool isPressed, isBallThrown;
-	private float power = 25;
+	private float power = 5;
 	private int numOfTrajectoryPoints = 10;
 	private List<GameObject> trajectoryPoints;
 	//---------------------------------------	
@@ -28,43 +28,49 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	void Update () 
 	{
-
         if (isBallThrown)
         {
-           return;
+            return;
         }
-		if(Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(1))
 		{
 			isPressed = true;
-				GenerateBomb();
+			GenerateBomb();
 		}
-		else if(Input.GetMouseButtonUp(0))
+		else if(Input.GetMouseButtonUp(1))
 		{
 			isPressed = false;
 			if(!isBallThrown)
 			{
-                HideTrajectoryPoints();
+                isBallThrown = true;
+                HideTrajectoryPoints();                
                 ShootBomb();
 			}
 		}
 		if(isPressed)
 		{
-            Debug.Log("BombObj = "+ bombObj.name);
-            Debug.Log("Camera.main = " + Camera.main.name);
-			Vector3 vel = GetForceFrom(bombObj.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            float angle = 0;
-            if(gameObject.name == "PlayerTurret")
+            if (bombObj != null)
             {
-                angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0,0,angle);
+                Vector3 vel = GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                float angle = 0;
+                if (gameObject.name == "PlayerTurret")
+                {
+                    angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
+                    transform.eulerAngles = new Vector3(0, 0, angle);
+                }
+                else
+                {
+                    angle = Mathf.Atan2(vel.y, -vel.x) * Mathf.Rad2Deg;
+                    transform.eulerAngles = new Vector3(0, 0, -angle);
+                }
+                if (vel.x > 22)
+                    vel = new Vector3(22, vel.y, vel.z);
+                if (vel.y > 15)
+                    vel = new Vector3(vel.x, 15, vel.z);
+                //    Debug.Log("Vel" + vel);
+                SetTrajectoryPoints(initPos.position, vel);
             }
-            else
-            {
-                angle = Mathf.Atan2(vel.y, -vel.x) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0,0,-angle);           
-            }
-               
-            SetTrajectoryPoints(initPos.position, vel);
 		}
 	}
 	//---------------------------------------	
@@ -72,8 +78,7 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	private void GenerateBomb()
 	{
-        Debug.Log("GenerateBomb = " + bombPrefab.name);
-
+        Debug.Log("GenerateBomb");
         bombObj = (GameObject) Instantiate(bombPrefab);
 		Vector3 pos = transform.position;
         bombObj.transform.SetParent(null);
@@ -84,19 +89,23 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	private void ShootBomb()
 	{
-		bombObj.SetActive(true);	
+        Debug.Log("ShootBomb");
+
+        // Debug.Log(GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb].name);
+        bombObj.GetComponent<SpriteRenderer>().sprite = GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb];
+        bombObj.SetActive(true);	
 		bombObj.GetComponent<Rigidbody2D>().gravityScale = 1;
         bombObj.GetComponent<Rigidbody2D>().AddForce(GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)), ForceMode2D.Impulse);
-		isBallThrown = true;
-        Invoke("DestroyBomb", 2f);
+		//isBallThrown = true;
+        ResetShoot();
+        
     }
-
-    void DestroyBomb()
-    {
-        Destroy(bombObj);
+   
+    void ResetShoot()
+    {       
         isBallThrown = false;
         GenerateBomb();
-        isPressed = true;
+        //isPressed = true;
     }
     //---------------------------------------	
     private Vector2 GetForceFrom(Vector3 fromPos, Vector3 toPos)

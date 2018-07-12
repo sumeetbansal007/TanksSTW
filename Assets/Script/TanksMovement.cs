@@ -5,7 +5,7 @@ using UnityEngine.U2D;
 
 public class TanksMovement : MonoBehaviour {
 
-    public GameObject terrain;
+    private GameObject terrain;
     public float moveSpeed;
     public float rotationSpeed;
 
@@ -16,6 +16,8 @@ public class TanksMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        terrain = GameObject.Find("Terrain");
+        if (terrain != null)
         spriteShapeController = terrain.GetComponent<SpriteShapeController>();
         spline = spriteShapeController.spline;
 
@@ -27,7 +29,7 @@ public class TanksMovement : MonoBehaviour {
         wayPoints.Clear();
         for (int i = 0; i < spline.GetPointCount(); i++)
         {
-            wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y + 0.5f, spline.GetPosition(i).z));
+            wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y , spline.GetPosition(i).z));
         }
     }
 	// Update is called once per frame
