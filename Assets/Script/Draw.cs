@@ -61,8 +61,8 @@ public class Draw : MonoBehaviour
                 //spline.SetBevelCutoff(newPointIndex, 82.0f);
 
                 spriteShapeController.BakeCollider();
-                if(tank!=null)
-                tank.GetComponent<TanksMovement>().GenerateWayPoints();
+                //if(tank!=null)
+                //tank.GetComponent<TanksMovement>().GenerateWayPoints();
             }
         }
     }

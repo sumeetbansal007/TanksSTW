@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
-
-public class TanksMovement : MonoBehaviour {
+using UnityEngine.Networking;
+public class TanksMovement : NetworkBehaviour
+{
 
     private GameObject terrain;
     public float moveSpeed;
@@ -34,7 +35,11 @@ public class TanksMovement : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
+        if (!isLocalPlayer)
+        {
 
+            return;
+        }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             if (targetWayPoint < spline.GetPointCount() - 2)
@@ -66,6 +71,18 @@ public class TanksMovement : MonoBehaviour {
                     targetWayPoint--;
             }
         }
+
+    }
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        Debug.Log("Start");
+
+
+    }
+    public override void OnStartClient()
+    {
+        GameObject.Find("Canvas").GetComponent<Timer>().UpdateTimeDisplay();
 
     }
 }
