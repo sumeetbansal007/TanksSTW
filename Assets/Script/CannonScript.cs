@@ -49,6 +49,8 @@ public class CannonScript : MonoBehaviour
 		}
 		if(isPressed)
 		{
+            Debug.Log("BombObj = "+ bombObj.name);
+            Debug.Log("Camera.main = " + Camera.main.name);
 			Vector3 vel = GetForceFrom(bombObj.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition));
             float angle = 0;
             if(gameObject.name == "PlayerTurret")
@@ -70,7 +72,9 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	private void GenerateBomb()
 	{
-		bombObj = (GameObject) Instantiate(bombPrefab);
+        Debug.Log("GenerateBomb = " + bombPrefab.name);
+
+        bombObj = (GameObject) Instantiate(bombPrefab);
 		Vector3 pos = transform.position;
         bombObj.transform.SetParent(null);
 		pos.z=1;

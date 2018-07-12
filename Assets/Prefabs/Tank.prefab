@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 212006481302154884}
   - component: {fileID: 114521810073198222}
   m_Layer: 8
-  m_Name: Turret
+  m_Name: PlayerTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trajectoryPointPrefeb: {fileID: 1142598358688234, guid: be9502c8e631e406ba918d0d0b8d753f, type: 2}
-  bombPrefab: {fileID: 0}
+  bombPrefab: {fileID: 1672141188694116, guid: f09d2863a877b4d928861aa6adf37f20, type: 2}
   initPos: {fileID: 4666269448617564}
 --- !u!212 &212006481302154884
 SpriteRenderer:
