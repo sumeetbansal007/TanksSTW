@@ -11,23 +11,31 @@ public class TanksMovement : MonoBehaviour {
 
     private List<Vector3> wayPoints = new List<Vector3>();
     private int targetWayPoint = 1 ;
-	// Use this for initialization
-	void Start () {
-        SpriteShapeController spriteShapeController = terrain.GetComponent<SpriteShapeController>();
-        Spline spline = spriteShapeController.spline;
+    private SpriteShapeController spriteShapeController;
+    private Spline spline;
 
+    // Use this for initialization
+    void Start () {
+        spriteShapeController = terrain.GetComponent<SpriteShapeController>();
+        spline = spriteShapeController.spline;
+
+        GenerateWayPoints();
+	}
+
+    public void GenerateWayPoints()
+    {
+        wayPoints.Clear();
         for (int i = 0; i < spline.GetPointCount(); i++)
         {
-            wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y + 1f, spline.GetPosition(i).z));
+            wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y + 0.5f, spline.GetPosition(i).z));
         }
-	}
-	
+    }
 	// Update is called once per frame
 	void Update () {
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (targetWayPoint < 18)
+            if (targetWayPoint < spline.GetPointCount() - 2)
             {
                 transform.position = Vector3.MoveTowards(transform.position, wayPoints[targetWayPoint], Time.deltaTime * moveSpeed);
 
