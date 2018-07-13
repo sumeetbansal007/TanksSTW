@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class CannonScript : MonoBehaviour 
+public class CannonScript : NetworkBehaviour 
 {
 	public GameObject trajectoryPointPrefeb;
 	public GameObject bombPrefab;
@@ -36,7 +37,7 @@ public class CannonScript : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
 		{
 			isPressed = true;
-			GenerateBomb();
+			CmdGenerateBomb();
 		}
 		else if(Input.GetMouseButtonUp(1))
 		{
@@ -76,10 +77,14 @@ public class CannonScript : MonoBehaviour
 	//---------------------------------------	
 	// When ball is thrown, it will create new ball
 	//---------------------------------------	
-	private void GenerateBomb()
+    [Command]
+
+	private void CmdGenerateBomb()
 	{
         Debug.Log("GenerateBomb");
+
         bombObj = (GameObject) Instantiate(bombPrefab);
+        NetworkServer.Spawn(bombPrefab) ;
 		Vector3 pos = transform.position;
         bombObj.transform.SetParent(null);
 		pos.z=1;
@@ -87,6 +92,7 @@ public class CannonScript : MonoBehaviour
 		bombObj.SetActive(false);
 	}
 	//---------------------------------------	
+    
 	private void ShootBomb()
 	{
         Debug.Log("ShootBomb");
@@ -104,7 +110,7 @@ public class CannonScript : MonoBehaviour
     void ResetShoot()
     {       
         isBallThrown = false;
-        GenerateBomb();
+        CmdGenerateBomb();
         //isPressed = true;
     }
     //---------------------------------------	

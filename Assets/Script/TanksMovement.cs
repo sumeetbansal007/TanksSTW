@@ -10,48 +10,49 @@ public class TanksMovement : NetworkBehaviour
     public float moveSpeed;
     public float rotationSpeed;
 
-    private List<Vector3> wayPoints = new List<Vector3>();
+   // private List<Vector3> wayPoints = new List<Vector3>();
     private int targetWayPoint = 1 ;
     private SpriteShapeController spriteShapeController;
     private Spline spline;
 
-    // Use this for initialization
-    void Start () {
+    private void Awake()
+    {
         terrain = GameObject.Find("Terrain");
         if (terrain != null)
-        spriteShapeController = terrain.GetComponent<SpriteShapeController>();
+            spriteShapeController = terrain.GetComponent<SpriteShapeController>();
         spline = spriteShapeController.spline;
 
-        GenerateWayPoints();
-	}
-
-    public void GenerateWayPoints()
-    {
-        wayPoints.Clear();
-        for (int i = 0; i < spline.GetPointCount(); i++)
-        {
-            wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y , spline.GetPosition(i).z));
-        }
+        gameObject.transform.position = spline.GetPosition(0);
     }
+    
+
+    //public void GenerateWayPoints()
+    //{
+    //    wayPoints.Clear();
+    //    for (int i = 0; i < spline.GetPointCount(); i++)
+    //    {
+    //        wayPoints.Add(new Vector3(spline.GetPosition(i).x, spline.GetPosition(i).y , spline.GetPosition(i).z));
+    //    }
+    //}
+
 	// Update is called once per frame
 	void Update () {
         if (!isLocalPlayer)
         {
-
             return;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             if (targetWayPoint < spline.GetPointCount() - 2)
             {
-                transform.position = Vector3.MoveTowards(transform.position, wayPoints[targetWayPoint], Time.deltaTime * moveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, spline.GetPosition(targetWayPoint), Time.deltaTime * moveSpeed);
 
-                var rotation = Quaternion.LookRotation(transform.position - wayPoints[targetWayPoint]);
+                var rotation = Quaternion.LookRotation(transform.position - spline.GetPosition(targetWayPoint));
                 rotation.x = 0;
                 rotation.y = 0;
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
-                if (Vector3.Distance(transform.position, wayPoints[targetWayPoint]) <= 0f)
+                if (Vector3.Distance(transform.position, spline.GetPosition(targetWayPoint)) <= 0f)
                     targetWayPoint++;
             }
         }
@@ -60,14 +61,14 @@ public class TanksMovement : NetworkBehaviour
         {
             if (targetWayPoint > 1)
             {
-                transform.position = Vector3.MoveTowards(transform.position, wayPoints[targetWayPoint - 2], Time.deltaTime * moveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, spline.GetPosition(targetWayPoint - 2), Time.deltaTime * moveSpeed);
 
-                var rotation = Quaternion.LookRotation(transform.position - wayPoints[targetWayPoint - 2]);
+                var rotation = Quaternion.LookRotation(transform.position - spline.GetPosition(targetWayPoint - 2));
                 rotation.x = 0;
                 rotation.y = 0;
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
-                if (Vector3.Distance(transform.position, wayPoints[targetWayPoint - 2]) <= 0f)
+                if (Vector3.Distance(transform.position, spline.GetPosition(targetWayPoint - 2)) <= 0f)
                     targetWayPoint--;
             }
         }
@@ -77,8 +78,6 @@ public class TanksMovement : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         Debug.Log("Start");
-
-
     }
     public override void OnStartClient()
     {

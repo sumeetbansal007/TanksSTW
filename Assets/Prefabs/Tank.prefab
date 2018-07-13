@@ -53,6 +53,8 @@ GameObject:
   - component: {fileID: 4425124823207984}
   - component: {fileID: 212733673540838626}
   - component: {fileID: 114255125007969632}
+  - component: {fileID: 114524655617864904}
+  - component: {fileID: 114135119563587452}
   m_Layer: 8
   m_Name: PlayerTurret
   m_TagString: Untagged
@@ -190,6 +192,38 @@ PolygonCollider2D:
       - {x: 1.365, y: -1.055}
       - {x: 1.635, y: -0.84499997}
       - {x: 1.735, y: -0.635}
+--- !u!114 &114135119563587452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633351856347602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 125
+    i2: 42
+    i3: 88
+    i4: 212
+    i5: 159
+    i6: 247
+    i7: 4
+    i8: 200
+    i9: 128
+    i10: 97
+    i11: 139
+    i12: 28
+    i13: 199
+    i14: 166
+    i15: 189
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114236122852613194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +270,27 @@ MonoBehaviour:
   trajectoryPointPrefeb: {fileID: 1142598358688234, guid: be9502c8e631e406ba918d0d0b8d753f, type: 2}
   bombPrefab: {fileID: 1672141188694116, guid: f09d2863a877b4d928861aa6adf37f20, type: 2}
   initPos: {fileID: 4152116120761358}
+--- !u!114 &114524655617864904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633351856347602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114778631231996286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e3f5198d895c0e4f97eb85d306d6959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 0.8
   rotationSpeed: 2
 --- !u!114 &114958998473820020
 MonoBehaviour:
