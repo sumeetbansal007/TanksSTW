@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour {
     public Sprite[] bombSprites;
     public List<GameObject> player = new List<GameObject>();
     float maxTurnTime = 10;
-    float timeLeft;
+    public float timeLeft;
     int currentPlayer = 0;
     int nextPlayer = 0;
-
+    public bool hasShoot;
     public Image timerImage;
     public Text turnTimerText;
     public bool isGameOver;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
 
 
 
-        if (timeLeft < 0)
+        if (timeLeft < 0 && !hasShoot)
         {
             SwitchTurn();
         }
@@ -68,9 +68,10 @@ public class GameManager : MonoBehaviour {
 
    public void SwitchTurn()
     {
+        
         Debug.Log("Switch Turn" );
         timeLeft = maxTurnTime;
-        
+        hasShoot = false;
         player[currentPlayer].GetComponent<TanksMovement>().isMyTurn = false;
 
         nextPlayer = ((currentPlayer + 1 )> (player.Count - 1)) ? 0 : currentPlayer + 1;

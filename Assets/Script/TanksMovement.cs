@@ -43,7 +43,7 @@ public class TanksMovement : MonoBehaviour
             else
             {
                 body.GetComponent<Rigidbody2D>().simulated = true;
-                gameObject.GetComponent<AudioSource>().Stop();
+                gameObject.GetComponent<AudioSource>().Pause();
             }
         }
         else if (gameObject.name == "EnemyTank")
@@ -58,7 +58,7 @@ public class TanksMovement : MonoBehaviour
             }
             else
             {
-                gameObject.GetComponent<AudioSource>().Stop();
+                gameObject.GetComponent<AudioSource>().Pause();
                 body.GetComponent<Rigidbody2D>().simulated = true;
 
             }
@@ -72,6 +72,7 @@ public class TanksMovement : MonoBehaviour
             return;
         if (targetWayPoint < spline.GetPointCount() - 2)
         {
+            if(!gameObject.GetComponent<AudioSource>().isPlaying)
             gameObject.GetComponent<AudioSource>().Play();
             body.GetComponent<Rigidbody2D>().simulated = false;
             transform.position = Vector3.MoveTowards(transform.position, spline.GetPosition(targetWayPoint), Time.deltaTime * moveSpeed);
@@ -91,6 +92,9 @@ public class TanksMovement : MonoBehaviour
             return;
         if (targetWayPoint > 1)
         {
+            if (!gameObject.GetComponent<AudioSource>().isPlaying)
+                gameObject.GetComponent<AudioSource>().Play();
+
             body.GetComponent<Rigidbody2D>().simulated = false;
             transform.position = Vector3.MoveTowards(transform.position, spline.GetPosition(targetWayPoint - 1), Time.deltaTime * moveSpeed);
 

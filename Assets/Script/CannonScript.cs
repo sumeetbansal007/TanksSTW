@@ -10,7 +10,7 @@ public class CannonScript : MonoBehaviour
     public Transform initPos;
 	
 	private GameObject bombObj;
-	private bool isPressed, isBallThrown;
+	private bool isPressed, isBombShoot;
 	private float power = 5;
 	private int numOfTrajectoryPoints = 10;
 	private List<GameObject> trajectoryPoints;
@@ -18,7 +18,7 @@ public class CannonScript : MonoBehaviour
 	void Start ()
 	{
 		trajectoryPoints = new List<GameObject>();
-		isPressed = isBallThrown = false;
+		isPressed = isBombShoot = false;
 		for(int i=0;i<numOfTrajectoryPoints;i++)
 		{
 			GameObject dot= (GameObject) Instantiate(trajectoryPointPrefeb);
@@ -35,7 +35,11 @@ public class CannonScript : MonoBehaviour
 
         if (!gameObject.transform.parent.transform.parent.GetComponent<TanksMovement>().isMyTurn)
             return;
-        if (isBallThrown)
+        else
+        {
+            isBombShoot = false;
+        }
+        if (isBombShoot)
         {
             return;
         }
@@ -50,9 +54,10 @@ public class CannonScript : MonoBehaviour
 		else if(Input.GetMouseButtonUp(1))
 		{
 			isPressed = false;
-			if(!isBallThrown)
+			if(!isBombShoot)
 			{
-                isBallThrown = true;
+                Debug.Log("Shoot");
+                isBombShoot = true;
                 HideTrajectoryPoints();
                 CmdGenerateBomb();
 			}
@@ -120,19 +125,25 @@ public class CannonScript : MonoBehaviour
 	{
 
         Debug.Log("ShootBomb = "+ GameManager.instance);
-
+        GameManager.instance.hasShoot = true;
+        Invoke("TurnSwitch", 2f);
         // Debug.Log(GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb].name);
         bombObj.GetComponent<SpriteRenderer>().sprite = GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb];
         bombObj.SetActive(true);	
 		bombObj.GetComponent<Rigidbody2D>().gravityScale = 1;
         bombObj.GetComponent<Rigidbody2D>().AddForce(GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)), ForceMode2D.Impulse);
 		//isBallThrown = true;
-        ResetShoot();
+        //ResetShoot();
+    }
+
+    void TurnSwitch()
+    {
+        GameManager.instance.SwitchTurn();
     }
    
     void ResetShoot()
     {       
-        isBallThrown = false;
+        isBombShoot = false;
        
         //CmdGenerateBomb();
         //isPressed = true;

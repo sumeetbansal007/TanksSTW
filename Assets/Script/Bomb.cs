@@ -22,7 +22,8 @@ public class Bomb : MonoBehaviour {
         go.GetComponent<ParticleSystem>().Play();
         go.GetComponent<AudioSource>().Play();
         //Debug.Log("Ready To Switch");
-        //GameManager.instance.SwitchTurn();
+        //if( GameManager.instance.timeLeft > 1f)
+       // GameManager.instance.SwitchTurn();
        
     }
    
