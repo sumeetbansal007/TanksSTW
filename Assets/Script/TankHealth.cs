@@ -27,14 +27,15 @@ public class TankHealth : MonoBehaviour {
             {
                  health = health - 40.0f;                
             }
-            else
+          
+            if (health < 0)
             {
                 //TODO: Need to pass the server that Game is over
                 Debug.Log("Game Over!!");
                 GameManager.instance.isGameOver = true;
                 gameOverPopUp.SetActive(true);
-                gameOverPopUp.transform.GetChild(0).GetComponent<Text>().text = "Game Over\n " + playerName + " Wins!!!\n Press 'R' to Restart";
-            }          
+                gameOverPopUp.transform.GetChild(1).GetComponent<Text>().text = (playerName == "Red" ? "<color=red>" + playerName + "</color>" : "<color=green>" + playerName + "</color>") + " Wins!!!";
+            }
         }
         if(healthBar!=null)
         healthBar.fillAmount = health / maxHealth;
