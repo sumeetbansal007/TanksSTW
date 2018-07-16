@@ -19,8 +19,6 @@ public class TankHealth : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collission with = "+ collision.gameObject.name);
-
         if (collision.gameObject.name.Contains("Bomb"))
         {
             if (health > 0)
@@ -31,7 +29,6 @@ public class TankHealth : MonoBehaviour {
             if (health < 0)
             {
                 //TODO: Need to pass the server that Game is over
-                Debug.Log("Game Over!!");
                 GameManager.instance.isGameOver = true;
                 gameOverPopUp.SetActive(true);
                 gameOverPopUp.transform.GetChild(1).GetComponent<Text>().text = (playerName == "Red" ? "<color=red>" + playerName + "</color>" : "<color=green>" + playerName + "</color>") + " Wins!!!";

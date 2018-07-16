@@ -44,7 +44,6 @@ public class CannonScript : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
 		{
 			isPressed = true;
-            Debug.Log("Ready to gen Bomb");
 			//CmdGenerateBomb();
 		//	GenerateBomb();
 		}
@@ -53,7 +52,6 @@ public class CannonScript : MonoBehaviour
 			isPressed = false;
 			if(!isBombShoot)
 			{
-                Debug.Log("Shoot");
                 isBombShoot = true;
                 HideTrajectoryPoints();
                 CmdGenerateBomb();
@@ -104,8 +102,6 @@ public class CannonScript : MonoBehaviour
     //[Command]
 	public void CmdGenerateBomb()
 	{
-        Debug.Log("GenerateBomb");
-
         bombObj = (GameObject) Instantiate(bombPrefab);
        // NetworkServer.Spawn(bombPrefab) ;
 		Vector3 pos = transform.position;
@@ -121,7 +117,6 @@ public class CannonScript : MonoBehaviour
 	private void ShootBomb()
 	{
 
-        Debug.Log("ShootBomb = "+ GameManager.instance);
         GameManager.instance.hasShoot = true;
         Invoke("TurnSwitch", 2f);
         // Debug.Log(GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb].name);

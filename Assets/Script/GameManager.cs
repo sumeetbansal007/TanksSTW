@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour {
    public void SwitchTurn()
     {
         
-        Debug.Log("Switch Turn" );
         timeLeft = maxTurnTime;
         hasShoot = false;
         player[currentPlayer].GetComponent<TanksMovement>().isMyTurn = false;
