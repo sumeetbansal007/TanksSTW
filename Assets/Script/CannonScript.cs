@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class CannonScript : NetworkBehaviour 
+public class CannonScript : MonoBehaviour 
 {
 	public GameObject trajectoryPointPrefeb;
 	public GameObject bombPrefab;
@@ -29,6 +29,12 @@ public class CannonScript : NetworkBehaviour
 	//---------------------------------------	
 	void Update () 
 	{
+
+        if (GameManager.instance.isGameOver)
+            return;
+
+        if (!gameObject.transform.parent.transform.parent.GetComponent<TanksMovement>().isMyTurn)
+            return;
         if (isBallThrown)
         {
             return;
@@ -37,7 +43,9 @@ public class CannonScript : NetworkBehaviour
         if (Input.GetMouseButtonDown(1))
 		{
 			isPressed = true;
-			CmdGenerateBomb();
+            Debug.Log("Ready to gen Bomb");
+			//CmdGenerateBomb();
+		//	GenerateBomb();
 		}
 		else if(Input.GetMouseButtonUp(1))
 		{
@@ -45,15 +53,14 @@ public class CannonScript : NetworkBehaviour
 			if(!isBallThrown)
 			{
                 isBallThrown = true;
-                HideTrajectoryPoints();                
-                ShootBomb();
+                HideTrajectoryPoints();
+                CmdGenerateBomb();
 			}
 		}
 		if(isPressed)
 		{
-            if (bombObj != null)
-            {
-                Vector3 vel = GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+           
+                Vector3 vel = GetForceFrom(initPos.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 float angle = 0;
                 if (gameObject.name == "PlayerTurret")
                 {
@@ -71,31 +78,48 @@ public class CannonScript : NetworkBehaviour
                     vel = new Vector3(vel.x, 15, vel.z);
                 //    Debug.Log("Vel" + vel);
                 SetTrajectoryPoints(initPos.position, vel);
-            }
+            
 		}
 	}
-	//---------------------------------------	
-	// When ball is thrown, it will create new ball
-	//---------------------------------------	
-    [Command]
+    //---------------------------------------	
+    // When ball is thrown, it will create new ball
+    //---------------------------------------	
 
-	private void CmdGenerateBomb()
+
+   /* public void CmdGenerateBomb()
+    {
+        Debug.Log("GenerateBomb");
+
+        bombObj = (GameObject)Instantiate(bombPrefab);
+        NetworkServer.Spawn(bombPrefab);
+        Vector3 pos = transform.position;
+        bombObj.transform.SetParent(null);
+        pos.z = 1;
+        bombObj.transform.position = initPos.position;
+        bombObj.SetActive(false);
+    }*/
+
+    //[Command]
+	public void CmdGenerateBomb()
 	{
         Debug.Log("GenerateBomb");
 
         bombObj = (GameObject) Instantiate(bombPrefab);
-        NetworkServer.Spawn(bombPrefab) ;
+       // NetworkServer.Spawn(bombPrefab) ;
 		Vector3 pos = transform.position;
         bombObj.transform.SetParent(null);
 		pos.z=1;
 		bombObj.transform.position = initPos.position;
 		bombObj.SetActive(false);
+
+        ShootBomb();
 	}
 	//---------------------------------------	
     
 	private void ShootBomb()
 	{
-        Debug.Log("ShootBomb");
+
+        Debug.Log("ShootBomb = "+ GameManager.instance);
 
         // Debug.Log(GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb].name);
         bombObj.GetComponent<SpriteRenderer>().sprite = GameManager.instance.bombSprites[GameManager.instance.currentIndexOfBomb];
@@ -104,13 +128,13 @@ public class CannonScript : NetworkBehaviour
         bombObj.GetComponent<Rigidbody2D>().AddForce(GetForceFrom(bombObj.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)), ForceMode2D.Impulse);
 		//isBallThrown = true;
         ResetShoot();
-        
     }
    
     void ResetShoot()
     {       
         isBallThrown = false;
-        CmdGenerateBomb();
+       
+        //CmdGenerateBomb();
         //isPressed = true;
     }
     //---------------------------------------	

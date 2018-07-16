@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -11,19 +12,74 @@ public class GameManager : MonoBehaviour {
    // public Dropdown bombDropDown;
    // public string currentBombName;
     public int currentIndexOfBomb;
+    public bool playerTurn;
     public Sprite[] bombSprites;
+    public List<GameObject> player = new List<GameObject>();
+    float maxTurnTime = 10;
+    float timeLeft;
+    int currentPlayer = 0;
+    int nextPlayer = 0;
+
+    public Image timerImage;
+    public Text turnTimerText;
+    public bool isGameOver;
    // List<string> bombNamesList = new List<string>();
 
     private void Awake()
     {
         instance = this;
+        player[currentPlayer].GetComponent<TanksMovement>().isMyTurn = true;
+        timeLeft = maxTurnTime;
     }
     // Use this for initialization
-    void Start () {
-        //GetBombTypes();
-        //AddBombToDropDown();
-	}
+    //void Start () {
+    //GetBombTypes();
+    //AddBombToDropDown();
+    //
+    //}
+    void Update()
+    {
+        if (isGameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(0);
+            }
+            return;
+        }
 
+        timeLeft -= Time.deltaTime;
+
+
+
+        if (timeLeft < 0)
+        {
+            SwitchTurn();
+        }
+        turnTimerText.text =  ((int)(timeLeft+1f)).ToString();
+        timerImage.fillAmount = timeLeft / maxTurnTime;
+        //Debug.Log("TimeLeft" + timeLeft);
+
+
+      
+
+
+    }
+
+   public void SwitchTurn()
+    {
+        Debug.Log("Switch Turn" );
+        timeLeft = maxTurnTime;
+        
+        player[currentPlayer].GetComponent<TanksMovement>().isMyTurn = false;
+
+        nextPlayer = ((currentPlayer + 1 )> (player.Count - 1)) ? 0 : currentPlayer + 1;
+        player[nextPlayer].GetComponent<TanksMovement>().isMyTurn = true;
+
+        currentPlayer = nextPlayer;
+        
+        timerImage.color = ((currentPlayer + 1) > (player.Count - 1)) ? Color.red : Color.green;
+    }
     //void AddBombToDropDown()
     //{
     //    bombDropDown.ClearOptions();
@@ -40,7 +96,7 @@ public class GameManager : MonoBehaviour {
     //    }
     //}
 
-    
+
 
     public void OnBombSelection(int index)
     {

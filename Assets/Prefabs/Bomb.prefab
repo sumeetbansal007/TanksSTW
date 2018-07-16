@@ -27,11 +27,11 @@ GameObject:
   - component: {fileID: 114883910971661416}
   m_Layer: 9
   m_Name: Bomb
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4379695852023462
 Transform:
   m_ObjectHideFlags: 1
