@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene("GamePlay");
             }
             return;
         }
