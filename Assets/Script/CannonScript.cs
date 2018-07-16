@@ -35,10 +35,7 @@ public class CannonScript : MonoBehaviour
 
         if (!gameObject.transform.parent.transform.parent.GetComponent<TanksMovement>().isMyTurn)
             return;
-        else
-        {
-            isBombShoot = false;
-        }
+       
         if (isBombShoot)
         {
             return;
@@ -139,6 +136,7 @@ public class CannonScript : MonoBehaviour
     void TurnSwitch()
     {
         GameManager.instance.SwitchTurn();
+        ResetShoot();
     }
    
     void ResetShoot()
